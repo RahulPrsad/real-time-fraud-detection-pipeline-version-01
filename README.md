@@ -8,16 +8,6 @@ A production-style streaming pipeline using **Apache Kafka**, **Apache Spark Str
 
 ---
 
-## Prerequisites
-
-| Tool | Minimum version |
-|------|----------------|
-| Docker Desktop | 24.x |
-| Docker Compose | 2.x (included with Docker Desktop) |
-| Free RAM | 6 GB |
-| Free disk | 5 GB |
-
----
 
 ## Project layout
 
@@ -164,28 +154,3 @@ docker compose down && rm -rf output/
 ```
 
 ---
-
-## Scaling tips
-
-| Goal | Change |
-|------|--------|
-| Higher throughput | Increase `TRANSACTIONS_PER_SECOND` in `producer` env |
-| Faster fraud detection | Reduce Spark trigger from `30 seconds` to `10 seconds` in `fraud_detection.py` |
-| More Kafka partitions | Set `KAFKA_NUM_PARTITIONS: 6` in `docker-compose.yml` |
-| Persistent Kafka data | Add a named volume to the `kafka` service |
-
----
-
-## Troubleshooting
-
-**Spark keeps restarting**
-Spark needs ~4 GB RAM. Increase Docker Desktop memory limit to 6 GB in Settings → Resources.
-
-**Dashboard shows no data after 2 minutes**
-Check Spark logs: `docker compose logs spark`. Look for connection errors or schema mismatches.
-
-**Kafka UI shows no messages**
-Confirm the producer is running: `docker compose logs producer`. It retries for 50 seconds before failing.
-
-**Port conflict on 8080**
-Change `"8080:8080"` to `"8081:8080"` in `docker-compose.yml` for the `kafka-ui` service.
